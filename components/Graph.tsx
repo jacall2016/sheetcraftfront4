@@ -22,7 +22,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
   const [chartData, setChartData] = useState<any>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [datasetColors, setDatasetColors] = useState<{ [key: string]: string }>({});
-  const [legendPosition, setLegendPosition] = useState<'top' | 'left' | 'bottom' | 'right'>('top');
+  const [legendPosition, setLegendPosition] = useState<'top' | 'left' | 'bottom' | 'right' | 'chartArea'>('top');
 
   useEffect(() => {
     setSelectedColumns([]);
@@ -67,7 +67,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "top" as "top",
+        position: legendPosition,
       },
       title: {
         display: true,
@@ -183,13 +183,14 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
           <div className="mb-4">
             <label className="block mb-2">Legend Position</label>
             <select
-              onChange={(e) => setLegendPosition(e.target.value as 'top' | 'left' | 'bottom' | 'right')}
+              onChange={(e) => setLegendPosition(e.target.value as 'top' | 'left' | 'bottom' | 'right' | 'chartArea')}
               className="p-2 border rounded bg-light text-secondary"
             >
               <option value="top">Top</option>
               <option value="left">Left</option>
               <option value="bottom">Bottom</option>
               <option value="right">Right</option>
+              <option value="chartArea">Chart Area</option>
             </select>
           </div>
           <button
