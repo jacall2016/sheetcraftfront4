@@ -15,7 +15,7 @@ const defaultColors = [
 
 const Graph: React.FC<GraphProps> = ({ data, columns }) => {
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
-  const [graphType, setGraphType] = useState<string>('bar');
+  const [graphType, setGraphType] = useState<'bar' | 'line'>('bar');
   const [xAxisLabel, setXAxisLabel] = useState<string>('');
   const [yAxisLabel, setYAxisLabel] = useState<string>('');
   const [graphTitle, setGraphTitle] = useState<string>('');
@@ -67,7 +67,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: legendPosition, // Use the state variable for position
+        position: legendPosition,
       },
       title: {
         display: true,
@@ -102,8 +102,8 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
 
     return (
       <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={chartOptions as ChartOptions<'bar'>} />}
-        {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
+        {graphType === 'bar' && <Bar data={chartData} options={chartOptions} />}
+        {graphType === 'line' && <Line data={chartData} options={chartOptions} />}
       </div>
     );
   };
@@ -146,7 +146,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
           <div className="mb-4">
             <label className="block mb-2">Select Graph Type</label>
             <select
-              onChange={(e) => setGraphType(e.target.value)}
+              onChange={(e) => setGraphType(e.target.value as 'bar' | 'line')}
               className="p-2 border rounded bg-light text-secondary"
             >
               <option value="bar">Bar</option>
