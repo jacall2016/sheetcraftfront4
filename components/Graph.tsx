@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Chart, registerables, ChartOptions } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 
 Chart.register(...registerables);
@@ -65,11 +65,11 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
   const renderChart = () => {
     if (!chartData) return null;
 
-    const options: ChartOptions<'bar'> = {
+    const options = {
       responsive: true,
       plugins: {
         legend: {
-          position: 'top', // explicitly type as one of the allowed values
+          position: 'top' as const, // Corrected here
         },
         title: {
           display: true,
@@ -93,17 +93,17 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     };
 
     const chartContainerStyle = {
-      backgroundColor: 'rgba(255, 255, 255, 0.85)', // Slightly transparent white background
+      backgroundColor: 'rgba(255, 255, 255, 0.85)',
       padding: '20px',
       borderRadius: '8px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // Slight shadow for better visibility
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     };
 
     return (
       <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={options as ChartOptions<'bar'>} />}
-        {graphType === 'line' && <Line data={chartData} options={options as ChartOptions<'line'>} />}
-        {graphType === 'pie' && <Pie data={chartData} options={options as ChartOptions<'pie'>} />}
+        {graphType === 'bar' && <Bar data={chartData} options={options} />}
+        {graphType === 'line' && <Line data={chartData} options={options} />}
+        {graphType === 'pie' && <Pie data={chartData} options={options} />}
       </div>
     );
   };
