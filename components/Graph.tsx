@@ -66,7 +66,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top', // explicitly typed
       },
       title: {
         display: true,
@@ -93,7 +93,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top', // explicitly typed
       },
       title: {
         display: true,
@@ -120,7 +120,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top', // explicitly typed
       },
       title: {
         display: true,
