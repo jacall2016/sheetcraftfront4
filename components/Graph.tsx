@@ -69,7 +69,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
       responsive: true,
       plugins: {
         legend: {
-          position: 'top',
+          position: 'top', // Fixed to one of the allowed types
         },
         title: {
           display: true,
