@@ -62,11 +62,38 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     });
   };
 
-  const chartOptions: ChartOptions<'bar' | 'line' | 'pie'> = {
+  const barOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as 'top' | 'left' | 'bottom' | 'right' | 'chartArea', // Explicit type assertion
+        position: 'top', // Explicitly define the position
+      },
+      title: {
+        display: true,
+        text: graphTitle,
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: xAxisLabel,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: yAxisLabel,
+        },
+      },
+    },
+  };
+
+  const lineOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top', // Explicitly define the position
       },
       title: {
         display: true,
@@ -101,9 +128,8 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
 
     return (
       <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={chartOptions} />}
-        {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
-        {graphType === 'pie' && <Pie data={chartData} options={chartOptions} />}
+        {graphType === 'bar' && <Bar data={chartData} options={barOptions} />}
+        {graphType === 'line' && <Line data={chartData} options={lineOptions} />}
       </div>
     );
   };
@@ -151,7 +177,6 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
             >
               <option value="bar">Bar</option>
               <option value="line">Line</option>
-              <option value="pie">Pie</option>
             </select>
           </div>
           <div className="mb-4">
