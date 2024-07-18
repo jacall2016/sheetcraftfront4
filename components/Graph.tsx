@@ -62,35 +62,75 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     });
   };
 
-  const renderChart = () => {
-    if (!chartData) return null;
-
-    const options: ChartOptions<'bar'> | ChartOptions<'line'> | ChartOptions<'pie'> = {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top', // Fixed to one of the allowed types
-        },
+  const barOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: graphTitle,
+      },
+    },
+    scales: {
+      x: {
         title: {
           display: true,
-          text: graphTitle,
+          text: xAxisLabel,
         },
       },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: xAxisLabel,
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: yAxisLabel,
-          },
+      y: {
+        title: {
+          display: true,
+          text: yAxisLabel,
         },
       },
-    };
+    },
+  };
+
+  const lineOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: graphTitle,
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: xAxisLabel,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: yAxisLabel,
+        },
+      },
+    },
+  };
+
+  const pieOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: graphTitle,
+      },
+    },
+  };
+
+  const renderChart = () => {
+    if (!chartData) return null;
 
     const chartContainerStyle = {
       backgroundColor: 'rgba(255, 255, 255, 0.85)',
@@ -100,10 +140,10 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     };
 
     return (
-        <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={options} />}
-        {graphType === 'line' && <Line data={chartData} options={options} />}
-        {graphType === 'pie' && <Pie data={chartData} options={options} />}
+      <div style={chartContainerStyle}>
+        {graphType === 'bar' && <Bar data={chartData} options={barOptions} />}
+        {graphType === 'line' && <Line data={chartData} options={lineOptions} />}
+        {graphType === 'pie' && <Pie data={chartData} options={pieOptions} />}
       </div>
     );
   };
