@@ -62,11 +62,11 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     });
   };
 
-  const barOptions: ChartOptions<'bar'> = {
+  const chartOptions: ChartOptions<'bar' | 'line' | 'pie'> = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top', // directly using string
+        position: 'top' as 'top' | 'left' | 'bottom' | 'right' | 'chartArea', // Explicit type assertion
       },
       title: {
         display: true,
@@ -85,46 +85,6 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
           display: true,
           text: yAxisLabel,
         },
-      },
-    },
-  };
-
-  const lineOptions: ChartOptions<'line'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top', // directly using string
-      },
-      title: {
-        display: true,
-        text: graphTitle,
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: xAxisLabel,
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: yAxisLabel,
-        },
-      },
-    },
-  };
-
-  const pieOptions: ChartOptions<'pie'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top', // directly using string
-      },
-      title: {
-        display: true,
-        text: graphTitle,
       },
     },
   };
@@ -140,12 +100,12 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     };
 
     return (
-      <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={barOptions} />}
-        {graphType === 'line' && <Line data={chartData} options={lineOptions} />}
-        {graphType === 'pie' && <Pie data={chartData} options={pieOptions} />}
-      </div>
-    );
+        <div style={chartContainerStyle}>
+          {graphType === 'bar' && <Bar data={chartData} options={chartOptions as ChartOptions<'bar'>} />}
+          {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
+          {graphType === 'pie' && <Pie data={chartData} options={chartOptions as ChartOptions<'pie'>} />}
+        </div>
+      );
   };
 
   return (
