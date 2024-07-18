@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Chart, registerables, ChartOptions } from 'chart.js';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 
 Chart.register(...registerables);
 
@@ -22,6 +22,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
   const [chartData, setChartData] = useState<any>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [datasetColors, setDatasetColors] = useState<{ [key: string]: string }>({});
+  const [legendPosition, setLegendPosition] = useState<'top' | 'left' | 'bottom' | 'right'>('top');
 
   useEffect(() => {
     setSelectedColumns([]);
@@ -62,38 +63,11 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     });
   };
 
-  const barOptions: ChartOptions<'bar'> = {
+  const chartOptions: ChartOptions<'bar' | 'line'> = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top', // Explicitly define the position
-      },
-      title: {
-        display: true,
-        text: graphTitle,
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: xAxisLabel,
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: yAxisLabel,
-        },
-      },
-    },
-  };
-
-  const lineOptions: ChartOptions<'line'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top', // Explicitly define the position
+        position: legendPosition, // Use the state variable for position
       },
       title: {
         display: true,
@@ -128,8 +102,8 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
 
     return (
       <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={barOptions} />}
-        {graphType === 'line' && <Line data={chartData} options={lineOptions} />}
+        {graphType === 'bar' && <Bar data={chartData} options={chartOptions as ChartOptions<'bar'>} />}
+        {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
       </div>
     );
   };
@@ -205,6 +179,18 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
               onChange={(e) => setGraphTitle(e.target.value)}
               className="p-2 border rounded bg-light text-secondary w-full"
             />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2">Legend Position</label>
+            <select
+              onChange={(e) => setLegendPosition(e.target.value as 'top' | 'left' | 'bottom' | 'right')}
+              className="p-2 border rounded bg-light text-secondary"
+            >
+              <option value="top">Top</option>
+              <option value="left">Left</option>
+              <option value="bottom">Bottom</option>
+              <option value="right">Right</option>
+            </select>
           </div>
           <button
             onClick={handleGenerateGraph}
