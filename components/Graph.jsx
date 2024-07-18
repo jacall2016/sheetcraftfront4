@@ -1,42 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Chart, registerables, ChartOptions } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 
 Chart.register(...registerables);
-
-interface GraphProps {
-  data: any[];
-  columns: string[];
-}
 
 const defaultColors = [
   '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
 ];
 
-const Graph: React.FC<GraphProps> = ({ data, columns }) => {
-  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
-  const [graphType, setGraphType] = useState<'bar' | 'line'>('bar');
-  const [xAxisLabel, setXAxisLabel] = useState<string>('');
-  const [yAxisLabel, setYAxisLabel] = useState<string>('');
-  const [graphTitle, setGraphTitle] = useState<string>('');
-  const [chartData, setChartData] = useState<any>(null);
-  const [validationError, setValidationError] = useState<string | null>(null);
-  const [datasetColors, setDatasetColors] = useState<{ [key: string]: string }>({});
-  const [legendPosition, setLegendPosition] = useState<'top' | 'left' | 'bottom' | 'right' | 'chartArea'>('top');
+const Graph = ({ data, columns }) => {
+  const [selectedColumns, setSelectedColumns] = useState([]);
+  const [graphType, setGraphType] = useState('bar');
+  const [xAxisLabel, setXAxisLabel] = useState('');
+  const [yAxisLabel, setYAxisLabel] = useState('');
+  const [graphTitle, setGraphTitle] = useState('');
+  const [chartData, setChartData] = useState(null);
+  const [validationError, setValidationError] = useState(null);
+  const [datasetColors, setDatasetColors] = useState({});
+  const [legendPosition, setLegendPosition] = useState('top');
 
   useEffect(() => {
     setSelectedColumns([]);
     setDatasetColors({});
   }, [data, columns]);
 
-  const handleColumnSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleColumnSelection = (e) => {
     const column = e.target.value;
     setSelectedColumns(prevSelectedColumns => 
       e.target.checked ? [...prevSelectedColumns, column] : prevSelectedColumns.filter(col => col !== column)
     );
   };
 
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>, column: string) => {
+  const handleColorChange = (e, column) => {
     const color = e.target.value;
     setDatasetColors(prevColors => ({ ...prevColors, [column]: color }));
   };
@@ -63,11 +58,11 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     });
   };
 
-  const chartOptions: ChartOptions<'bar' | 'line'> = {
+  const chartOptions = {
     responsive: true,
     plugins: {
       legend: {
-        position: legendPosition as 'top' | 'left' | 'bottom' | 'right' | 'chartArea',
+        position: legendPosition,
       },
       title: {
         display: true,
@@ -146,7 +141,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
           <div className="mb-4">
             <label className="block mb-2">Select Graph Type</label>
             <select
-              onChange={(e) => setGraphType(e.target.value as 'bar' | 'line')}
+              onChange={(e) => setGraphType(e.target.value)}
               className="p-2 border rounded bg-light text-secondary"
             >
               <option value="bar">Bar</option>
@@ -183,14 +178,13 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
           <div className="mb-4">
             <label className="block mb-2">Legend Position</label>
             <select
-              onChange={(e) => setLegendPosition(e.target.value as 'top' | 'left' | 'bottom' | 'right' | 'chartArea')}
+              onChange={(e) => setLegendPosition(e.target.value)}
               className="p-2 border rounded bg-light text-secondary"
             >
               <option value="top">Top</option>
               <option value="left">Left</option>
               <option value="bottom">Bottom</option>
               <option value="right">Right</option>
-              <option value="chartArea">Chart Area</option>
             </select>
           </div>
           <button
