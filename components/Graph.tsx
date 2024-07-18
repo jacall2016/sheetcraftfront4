@@ -100,12 +100,12 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     };
 
     return (
-        <div style={chartContainerStyle}>
-          {graphType === 'bar' && <Bar data={chartData} options={chartOptions as ChartOptions<'bar'>} />}
-          {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
-          {graphType === 'pie' && <Pie data={chartData} options={chartOptions as ChartOptions<'pie'>} />}
-        </div>
-      );
+      <div style={chartContainerStyle}>
+        {graphType === 'bar' && <Bar data={chartData} options={chartOptions} />}
+        {graphType === 'line' && <Line data={chartData} options={chartOptions as ChartOptions<'line'>} />}
+        {graphType === 'pie' && <Pie data={chartData} options={chartOptions} />}
+      </div>
+    );
   };
 
   return (
