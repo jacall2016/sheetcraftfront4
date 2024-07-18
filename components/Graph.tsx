@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Chart, registerables } from 'chart.js';
+import { Chart, registerables, ChartOptions } from 'chart.js';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 
 Chart.register(...registerables);
@@ -65,11 +65,11 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
   const renderChart = () => {
     if (!chartData) return null;
 
-    const options = {
+    const options: ChartOptions<'bar'> | ChartOptions<'line'> | ChartOptions<'pie'> = {
       responsive: true,
       plugins: {
         legend: {
-          position: 'top' as const, // Corrected here
+          position: 'top',
         },
         title: {
           display: true,
@@ -101,9 +101,9 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
 
     return (
       <div style={chartContainerStyle}>
-        {graphType === 'bar' && <Bar data={chartData} options={options} />}
-        {graphType === 'line' && <Line data={chartData} options={options} />}
-        {graphType === 'pie' && <Pie data={chartData} options={options} />}
+        {graphType === 'bar' && <Bar data={chartData} options={options as ChartOptions<'bar'>} />}
+        {graphType === 'line' && <Line data={chartData} options={options as ChartOptions<'line'>} />}
+        {graphType === 'pie' && <Pie data={chartData} options={options as ChartOptions<'pie'>} />}
       </div>
     );
   };
