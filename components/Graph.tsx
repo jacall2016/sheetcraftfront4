@@ -67,7 +67,7 @@ const Graph: React.FC<GraphProps> = ({ data, columns }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: legendPosition,
+        position: legendPosition as 'top' | 'left' | 'bottom' | 'right' | 'chartArea',
       },
       title: {
         display: true,
