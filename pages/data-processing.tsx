@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import Graph from '../components/Graph';
 import Filter from '../components/Filter';
 
 const DataProcessingPage = () => {
@@ -85,9 +84,6 @@ const DataProcessingPage = () => {
         )}
         {showFilter && data.length > 0 && (
           <Filter data={data} columns={columns} onFilterChange={handleFilterChange} />
-        )}
-        {showGraph && data.length > 0 && (
-          <Graph data={showFilter ? filteredData : data} columns={columns} />
         )}
       </div>
     </div>
