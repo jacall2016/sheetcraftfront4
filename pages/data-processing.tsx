@@ -65,14 +65,6 @@ const DataProcessingPage = () => {
             <div className="flex items-center mb-4">
               <input
                 type="checkbox"
-                id="graph"
-                checked={showGraph}
-                onChange={(e) => setShowGraph(e.target.checked)}
-                className="mr-2"
-              />
-              <label htmlFor="graph" className="mr-4">Generate Graph</label>
-              <input
-                type="checkbox"
                 id="filter"
                 checked={showFilter}
                 onChange={(e) => setShowFilter(e.target.checked)}
