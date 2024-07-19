@@ -17,7 +17,7 @@ const Graphs = () => {
   const [graphTitle, setGraphTitle] = useState<string>('');
   const [chartData, setChartData] = useState<any>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [datasetColors, setDatasetColors] = useState<{ [key: string]: string }>({}); // Added state for dataset colors
+  const [datasetColors, setDatasetColors] = useState<{ [key: string]: string }>({});
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -27,7 +27,6 @@ const Graphs = () => {
         const binaryStr = event.target?.result;
         const workbook = XLSX.read(binaryStr, { type: 'binary' });
 
-        // Safety check: Reject the file if it has more than one sheet
         if (workbook.SheetNames.length > 1) {
           setError('The uploaded Excel file has more than one sheet. Please upload a file with only one sheet.');
           setFile(null);
@@ -54,7 +53,7 @@ const Graphs = () => {
 
   const handleColumnSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const column = e.target.value;
-    setSelectedColumns(prevSelectedColumns => 
+    setSelectedColumns(prevSelectedColumns =>
       e.target.checked ? [...prevSelectedColumns, column] : prevSelectedColumns.filter(col => col !== column)
     );
   };
@@ -93,7 +92,7 @@ const Graphs = () => {
       responsive: true,
       plugins: {
         legend: {
-          position: 'top',
+          position: 'top' as 'top' | 'center' | 'left' | 'right' | 'bottom' | 'chartArea', // Ensure position is correctly typed
         },
         title: {
           display: true,
